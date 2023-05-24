@@ -23,8 +23,7 @@ clean:
 re: fclean all
 
 git: fclean
-	git add .
-	@echo "Comit:"
+	@echo "Commit:"
 	@read message; \
 	git commit -am "$$message"
 	git push
