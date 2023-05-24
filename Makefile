@@ -24,8 +24,8 @@ re: fclean all
 
 git: fclean
 	@echo "Commit:"
-	@read message; \
-	git commit -am "$$message"
+	@read MSG; \
+	git commit -am "$$MSG"
 	git push
 
 .PHONY: clean all fclean re main
