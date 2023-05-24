@@ -6,7 +6,7 @@
 /*   By: nkeyani- < nkeyani-@student.42barcelona    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/24 13:09:31 by nkeyani-          #+#    #+#             */
-/*   Updated: 2023/05/24 16:37:03 by nkeyani-         ###   ########.fr       */
+/*   Updated: 2023/05/24 16:50:50 by nkeyani-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,7 @@ size_t	ft_strlen(char *s)
 char	*ft_strjoin(const char *s1, const char *s2)
 {
 	int			i;
+	int			j;
 	int			s1len;
 	int			s2len;
 	char		*joined;	
@@ -35,8 +36,9 @@ char	*ft_strjoin(const char *s1, const char *s2)
 	if (!joined)
 		return (NULL);
 	i = 0;
+	j = 0;
 	while (s1[i] != '\0')
-		joined[i++] = ((char *)s1)[i];
+		joined[i++] = ((char *)s1)[j++];
 	i = 0;
 	while (i < s2len)
 	{
@@ -62,4 +64,3 @@ char	*ft_strchr(const char *s, int c)
 		return ((char *)&s[i]);
 	return (NULL);
 }
-
