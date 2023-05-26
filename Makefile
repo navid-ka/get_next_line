@@ -1,5 +1,5 @@
 NAME = GNL
-CFLAGS = -Wall -Werror -Wextra -D BUFFER_SIZE=xx -g -fsanitize=address
+CFLAGS = -Wall -Werror -Wextra -D BUFFER_SIZE=42 -g -fsanitize=address
 OBJECTS = get_next_line.c get_next_line_utils.c
 COLOR_RESET = \033[0m
 COLOR = \033[32m
@@ -14,7 +14,7 @@ all: ${NAME}
 
 fclean: clean
 	@rm -rf ${NAME}
-	@rm -R *.dSYM
+	#@rm -R *.dSYM
 	@printf "$(COLOR)Cleaned directory! $(KAOMOJI_REMOVE)$(COLOR_RESET)\n"
 
 clean:
@@ -23,7 +23,7 @@ clean:
 
 re: fclean all
 
-git: 
+git: fclean
 	@echo "Commit:"
 	@read MSG; \
 	git commit -am "$$MSG"

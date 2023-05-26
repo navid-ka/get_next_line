@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   get_next_line_utils.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nkeyani- < nkeyani-@student.42barcelona    +#+  +:+       +#+        */
+/*   By: bifrost <nkeyani-@student.42barcelona.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/24 13:09:31 by nkeyani-          #+#    #+#             */
-/*   Updated: 2023/05/24 16:50:50 by nkeyani-         ###   ########.fr       */
+/*   Updated: 2023/05/26 14:57:31 by bifrost          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,7 @@ char	*ft_strchr(const char *s, int c)
 	int	i;
 
 	i = 0;
-	while (s[i])
+	while (s[i] != '\0')
 	{
 		if (s[i] == (char)c)
 			return ((char *)&s[i]);
@@ -64,3 +64,24 @@ char	*ft_strchr(const char *s, int c)
 		return ((char *)&s[i]);
 	return (NULL);
 }
+
+char	*ft_strdup(char *s)
+{
+	size_t	len;
+	int		i;
+	char	*dup;
+
+	len = ft_strlen(s);
+	dup = (char *) malloc(sizeof(char) * (len + 1));
+	if (dup == NULL)
+		return (NULL);
+	i = 0;
+	while (s[i])
+	{
+		dup[i] = s[i];
+		i++;
+	}
+	dup[i] = '\0';
+	return (dup);
+}
+
