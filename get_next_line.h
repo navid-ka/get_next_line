@@ -6,19 +6,22 @@
 /*   By: bifrost <nkeyani-@student.42barcelona.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/24 13:09:40 by nkeyani-          #+#    #+#             */
-/*   Updated: 2023/05/26 10:26:17 by bifrost          ###   ########.fr       */
+/*   Updated: 2023/05/26 14:55:05 by bifrost          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef GET_NEXT_LINE_H
 # define GET_NEXT_LINE_H
 
-# define BUFFER_SIZE 1
 # include <stdlib.h>
 # include <unistd.h>
+#ifndef BUFFER_SIZE
+# define BUFFER_SIZE 100000
+#endif
 
 size_t	ft_strlen(char *s);
 char	*ft_strchr(const char *s, int c);
+char	*ft_strdup(char *s);
 char	*ft_strjoin(const char *s1, const char *s2);
 char	*get_next_line(int fd);
 
