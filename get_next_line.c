@@ -6,7 +6,7 @@
 /*   By: bifrost <nkeyani-@student.42barcelona.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/24 13:21:10 by nkeyani-          #+#    #+#             */
-/*   Updated: 2023/05/26 15:05:44 by bifrost          ###   ########.fr       */
+/*   Updated: 2023/05/26 15:27:32 by bifrost          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,10 +30,6 @@ static char *read_storage(int fd, char *storage)
 		if (bytes_read <= 0)
 			break;
 		temp_storage[bytes_read] = '\0';
-		if (!*storage) 
-			storage = ft_strdup(temp_storage);
-		else
-			storage = ft_strjoin(storage, temp_storage); 
 
 		printf("storage: %s\n", storage); 
 	}
