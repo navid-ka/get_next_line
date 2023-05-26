@@ -23,7 +23,7 @@ clean:
 
 re: fclean all
 
-git: fclean
+git: 
 	@echo "Commit:"
 	@read MSG; \
 	git commit -am "$$MSG"
