@@ -6,7 +6,7 @@
 /*   By: nkeyani- < nkeyani-@student.42barcelona    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/24 13:21:10 by nkeyani-          #+#    #+#             */
-/*   Updated: 2023/05/27 14:34:44 by nkeyani-         ###   ########.fr       */
+/*   Updated: 2023/05/27 18:41:00 by nkeyani-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,14 +34,10 @@ static char	*read_storage(int fd, char *storage)
 	{
 		bytes_read = read(fd, temp_storage, BUFFER_SIZE);
 		temp_storage[bytes_read] = '\0';
+		temp_storage = ft_strjoin(storage, temp_storage);
 	}
 	free(temp_storage);
 	return (storage);
-}
-
-static char	*delete_storage(char *stroage)
-{
-	
 }
 
 static char	*new_line(char *storage)
@@ -53,6 +49,15 @@ static char	*new_line(char *storage)
 	new_line = ft_strjoin(storage, temp_storage);
 	free(temp_storage);
 	return (new_line);
+}
+
+static char	*delete_storage(char *storage)
+{
+	char	*line;
+
+	if (!ft_strchr(storage, '\n'))
+		line = free_storage(storage);
+	return (line);
 }
 
 char	*get_next_line(int fd)
@@ -71,14 +76,15 @@ char	*get_next_line(int fd)
 
 int	main(void)
 {
-	int fd = open("hello.txt", O_RDONLY);
+	int	fd = open("hello.txt", O_RDONLY);
+
 	if (fd == -1)
 	{
 		perror("Failed to open file");
 		return 1;
 	}
 
-	char *line;
+	char	*line;
 	while ((line = get_next_line(fd)) != NULL)
 	{
 		printf("%s\n", line);
