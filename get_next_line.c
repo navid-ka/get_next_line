@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   get_next_line.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bifrost <nkeyani-@student.42barcelona.c    +#+  +:+       +#+        */
+/*   By: nkeyani- < nkeyani-@student.42barcelona    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/24 13:21:10 by nkeyani-          #+#    #+#             */
-/*   Updated: 2023/05/26 15:27:32 by bifrost          ###   ########.fr       */
+/*   Updated: 2023/05/27 14:34:44 by nkeyani-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,42 +15,49 @@
 #include <fcntl.h>
 #include <unistd.h>
 
-static char *read_storage(int fd, char *storage)
+static void	*free_storage(char *storage)
 {
-	int bytes_read;
-	char *temp_storage;
+	free(storage);
+	storage = NULL;
+}
+
+static char	*read_storage(int fd, char *storage)
+{
+	int		bytes_read;
+	char	*temp_storage;
 
 	temp_storage = malloc(sizeof(char) * (BUFFER_SIZE + 1));
 	if (!temp_storage)
 		return (NULL);
-
-	while (!ft_strchr(storage, '\n'))
+	bytes_read = 1;
+	while (bytes_read > 0 && !ft_strchr(storage, '\n'))
 	{
 		bytes_read = read(fd, temp_storage, BUFFER_SIZE);
-		if (bytes_read <= 0)
-			break;
 		temp_storage[bytes_read] = '\0';
-
-		printf("storage: %s\n", storage); 
 	}
 	free(temp_storage);
 	return (storage);
 }
 
-static char	*copy_storage(char *storage)
+static char	*delete_storage(char *stroage)
+{
+	
+}
+
+static char	*new_line(char *storage)
 {
 	char	*temp_storage;
-	char	*new_storage;
+	char	*new_line;
 
 	temp_storage = read_storage(0, storage);
-	new_storage = ft_strjoin(storage, temp_storage);
+	new_line = ft_strjoin(storage, temp_storage);
 	free(temp_storage);
-	return (new_storage);
+	return (new_line);
 }
 
 char	*get_next_line(int fd)
 {
-	static char	*storage = { 0 };
+	static char	*storage = {0};
 	char		*line;
 
 	if (fd < 0 || BUFFER_SIZE < 0)
@@ -58,7 +65,7 @@ char	*get_next_line(int fd)
 	storage = read_storage(fd, storage);
 	if (!storage)
 		return (NULL);
-	line = copy_storage(storage);
+	line = new_line(storage);
 	return (line);
 }
 
