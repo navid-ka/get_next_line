@@ -1,5 +1,5 @@
 NAME = GNL
-CFLAGS = -Wall -Werror -Wextra -D BUFFER_SIZE=42 -g -fsanitize=address
+CFLAGS = -Wall -Werror -Wextra -D BUFFER_SIZE=42 #-g -fsanitize=address
 OBJECTS = get_next_line.c get_next_line_utils.c
 COLOR_RESET = \033[0m
 COLOR = \033[32m
