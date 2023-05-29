@@ -6,7 +6,7 @@
 /*   By: bifrost <nkeyani-@student.42barcelona.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/24 13:21:10 by nkeyani-          #+#    #+#             */
-/*   Updated: 2023/05/29 03:19:52 by bifrost          ###   ########.fr       */
+/*   Updated: 2023/05/29 03:28:30 by bifrost          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,10 +48,18 @@ static char	*new_line(char *storage)
 {
 	char	*temp_storage;
 	char	*new_line;
+	int		i;
 
-	temp_storage = read_storage(0, storage);
-	new_line = ft_strjoin(storage, temp_storage);
-	free(temp_storage);
+	i = 0;
+	temp_storage = storage;
+	while (temp_storage[i] != '\n' && temp_storage[i] != '\0')
+		i++;
+	if (ft_strchr(storage, '\n'))
+	{
+		new_line = ft_strjoin(storage, temp_storage);
+		free_storage(temp_storage);
+	}
+	free_storage(temp_storage);
 	return (new_line);
 }
 
