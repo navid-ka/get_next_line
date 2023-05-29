@@ -3,17 +3,15 @@
 /*                                                        :::      ::::::::   */
 /*   get_next_line.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bifrost <nkeyani-@student.42barcelona.c    +#+  +:+       +#+        */
+/*   By: nkeyani- < nkeyani-@student.42barcelona    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/24 13:21:10 by nkeyani-          #+#    #+#             */
-/*   Updated: 2023/05/29 03:32:59 by bifrost          ###   ########.fr       */
+/*   Updated: 2023/05/29 18:58:38 by nkeyani-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
 #include <stdio.h>
-#include <fcntl.h>
-#include <unistd.h>
 
 static void	*free_storage(char *storage)
 {
@@ -27,73 +25,62 @@ static void	*free_storage(char *storage)
 
 static char	*read_storage(int fd, char *storage)
 {
-	int		bytes_read;
 	char	*temp_storage;
+	int		bytes;
 
-	temp_storage = malloc(sizeof(char) * (BUFFER_SIZE + 1));
+	bytes = 1;
+	temp_storage = malloc(BUFFER_SIZE + 1);
 	if (!temp_storage)
 		return (NULL);
-	bytes_read = 1;
-	while (bytes_read && !ft_strchr(storage, '\n'))
+	while (bytes && !ft_strchr(storage, '\n'))
 	{
-		bytes_read = read(fd, temp_storage, BUFFER_SIZE);
-		temp_storage[bytes_read] = '\0';
-		temp_storage = ft_strjoin(storage, temp_storage);
-		printf("%s", temp_storage);
+		bytes = read(fd, storage, BUFFER_SIZE);
+		if (bytes == -1)
+			return (0);
+		temp_storage[bytes] = '\0';
+		storage = ft_strjoin(temp_storage, storage);
+		if (temp_storage == NULL)
+			free_storage(temp_storage);
 	}
 	free_storage(temp_storage);
-	printf("%s", storage);
 	return (storage);
 }
 
-static char	*new_line(char *storage)
-{
-	char	*temp_storage;
-	char	*new_line;
-	int		i;
-
-	i = 0;
-	temp_storage = storage;
-	printf("%s", temp_storage);
-	while (temp_storage[i] != '\n' && temp_storage[i] != '\0')
-		i++;
-	if (ft_strchr(storage, '\n'))
-	{
-		new_line = ft_strjoin(storage, temp_storage);
-		free_storage(temp_storage);
-	}
-	free_storage(temp_storage);
-	return (new_line);
-}
+//static char	*new_line(char *storage);
 
 char	*get_next_line(int fd)
 {
-	static char	*storage = {0};
-	char		*line;
+	static char	*storage = NULL;
+	char		*line = NULL;
 
+	printf("checkpoint fd\n");
 	if (fd < 0 || BUFFER_SIZE < 0)
 		return (NULL);
+	printf("%zd DID I READ IT???", read(fd, storage, BUFFER_SIZE));
 	storage = read_storage(fd, storage);
-	if (!storage)
-		return (NULL);
-	line = new_line(storage);
 	return (line);
 }
 
-int	main(void)
+#include <unistd.h>
+#include <fcntl.h>
+
+#include <string.h>
+
+int		main(void)
 {
-	int	fd = open("hello.txt", O_RDONLY);
-	if (fd == -1)
-	{
-		perror("Failed to open file");
-		return 1;
-	}
+	int		file;
+	int		ret;
 	char	*line;
-	while ((line = get_next_line(fd)) != NULL)
+
+	file = 0;
+	while ((ret = get_next_line(file, &line)) == 1)
 	{
-		printf("%s\n", line);
+		printf("[%d] |%s|\n", ret, line);
 		free(line);
+		line = NULL;
 	}
-	close(fd);
-	return (0);
+	printf("[%d] |%s|\n", ret, line);
+	free(line);
+	line = NULL;
 }
+
