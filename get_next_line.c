@@ -6,7 +6,7 @@
 /*   By: bifrost <nkeyani-@student.42barcelona.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/24 13:21:10 by nkeyani-          #+#    #+#             */
-/*   Updated: 2023/05/29 03:28:30 by bifrost          ###   ########.fr       */
+/*   Updated: 2023/05/29 03:32:59 by bifrost          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,8 +39,10 @@ static char	*read_storage(int fd, char *storage)
 		bytes_read = read(fd, temp_storage, BUFFER_SIZE);
 		temp_storage[bytes_read] = '\0';
 		temp_storage = ft_strjoin(storage, temp_storage);
+		printf("%s", temp_storage);
 	}
 	free_storage(temp_storage);
+	printf("%s", storage);
 	return (storage);
 }
 
@@ -52,6 +54,7 @@ static char	*new_line(char *storage)
 
 	i = 0;
 	temp_storage = storage;
+	printf("%s", temp_storage);
 	while (temp_storage[i] != '\n' && temp_storage[i] != '\0')
 		i++;
 	if (ft_strchr(storage, '\n'))
