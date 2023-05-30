@@ -6,7 +6,7 @@
 /*   By: bifrost <nkeyani-@student.42barcelona.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/24 13:21:10 by nkeyani-          #+#    #+#             */
-/*   Updated: 2023/05/30 20:08:15 by bifrost          ###   ########.fr       */
+/*   Updated: 2023/05/31 00:10:35 by bifrost          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,8 @@ static char	*read_storage(int fd, char *storage)
 		if (read_bytes == -1)
 		{
 			free(temp_storage);
+			if (storage)
+				free(storage);
 			return (NULL);
 		}
 		temp_storage[read_bytes] = '\0';
@@ -96,7 +98,7 @@ char	*get_next_line(int fd)
 	static char	*storage;
 
 	if (fd < 0 || BUFFER_SIZE <= 0)
-		return (NULL);
+		return (0);
 	storage = read_storage(fd, storage);
 	if (!storage)
 		return (NULL);
@@ -106,7 +108,7 @@ char	*get_next_line(int fd)
 }
 
 
-int main()
+/*int main()
 {
 	int fd;
 	int i;
@@ -124,3 +126,4 @@ int main()
 	close(fd);
 	return (0);
 }
+*/
