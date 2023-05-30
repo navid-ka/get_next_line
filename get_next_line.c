@@ -6,7 +6,7 @@
 /*   By: bifrost <nkeyani-@student.42barcelona.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/24 13:21:10 by nkeyani-          #+#    #+#             */
-/*   Updated: 2023/05/30 19:10:40 by bifrost          ###   ########.fr       */
+/*   Updated: 2023/05/30 20:08:15 by bifrost          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,9 +21,9 @@ static char	*read_storage(int fd, char *storage)
 
 	temp_storage = malloc((BUFFER_SIZE + 1) * sizeof(char));
 	if (!temp_storage)
-		return (NULL);
-	read_bytes = 1;
-	while (!ft_strchr(storage, '\n') && read_bytes != 0)
+		return (free(temp_storage), NULL);
+	read_bytes = 42;
+	while (!ft_strchr(storage, '\n') && read_bytes > 0)
 	{
 		read_bytes = read(fd, temp_storage, BUFFER_SIZE);
 		if (read_bytes == -1)
@@ -35,6 +35,7 @@ static char	*read_storage(int fd, char *storage)
 		storage = ft_strjoin(storage, temp_storage);
 	}
 	free(temp_storage);
+	temp_storage = NULL;
 	return (storage);
 }
 
@@ -44,7 +45,7 @@ static char	*extract_line(char *storage)
 	char	*line;
 
 	i = 0;
-	if (!storage[i])
+	if (!storage[0] || !storage)
 		return (NULL);
 	while (storage[i] && storage[i] != '\n')
 		i++;
@@ -76,10 +77,7 @@ static void	*clean_storage(char *storage)
 	while (storage[i] && storage[i] != '\n')
 		i++;
 	if (!storage[i])
-	{
-		free(storage);
-		return (NULL);
-	}
+		return (free(storage), NULL);
 	new_storage = malloc(sizeof(char) * (ft_strlen(storage) - i + 1));
 	if (!new_storage)
 		return (NULL);
@@ -98,7 +96,7 @@ char	*get_next_line(int fd)
 	static char	*storage;
 
 	if (fd < 0 || BUFFER_SIZE <= 0)
-		return (0);
+		return (NULL);
 	storage = read_storage(fd, storage);
 	if (!storage)
 		return (NULL);
@@ -106,6 +104,7 @@ char	*get_next_line(int fd)
 	storage = clean_storage(storage);
 	return (line);
 }
+
 
 int main()
 {
