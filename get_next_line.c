@@ -6,7 +6,7 @@
 /*   By: bifrost <nkeyani-@student.42barcelona.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/24 13:21:10 by nkeyani-          #+#    #+#             */
-/*   Updated: 2023/05/30 13:52:26 by bifrost          ###   ########.fr       */
+/*   Updated: 2023/05/30 19:10:40 by bifrost          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -114,7 +114,7 @@ int main()
 	char *line;
 
 	i = 0;
-	fd = open("./hello.txt", O_RDONLY);
+	fd = open("./0.txt", O_RDONLY);
 	while (i < 10)
 	{
 		line = get_next_line(fd);
