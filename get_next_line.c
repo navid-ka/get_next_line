@@ -6,13 +6,14 @@
 /*   By: bifrost <nkeyani-@student.42barcelona.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/24 13:21:10 by nkeyani-          #+#    #+#             */
-/*   Updated: 2023/05/31 00:10:35 by bifrost          ###   ########.fr       */
+/*   Updated: 2023/05/31 01:11:02 by bifrost          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
 #include <stdio.h>
 #include <fcntl.h>
+#include <limits.h>
 
 static char	*read_storage(int fd, char *storage)
 {
@@ -21,12 +22,12 @@ static char	*read_storage(int fd, char *storage)
 
 	temp_storage = malloc((BUFFER_SIZE + 1) * sizeof(char));
 	if (!temp_storage)
-		return (free(temp_storage), NULL);
+		return (NULL);
 	read_bytes = 42;
 	while (!ft_strchr(storage, '\n') && read_bytes > 0)
 	{
 		read_bytes = read(fd, temp_storage, BUFFER_SIZE);
-		if (read_bytes == -1)
+		if (read_bytes < 0)
 		{
 			free(temp_storage);
 			if (storage)
@@ -47,7 +48,7 @@ static char	*extract_line(char *storage)
 	char	*line;
 
 	i = 0;
-	if (!storage[0] || !storage)
+	if (storage[0] == '\0')
 		return (NULL);
 	while (storage[i] && storage[i] != '\n')
 		i++;
@@ -79,7 +80,10 @@ static void	*clean_storage(char *storage)
 	while (storage[i] && storage[i] != '\n')
 		i++;
 	if (!storage[i])
-		return (free(storage), NULL);
+	{
+		free(storage);
+		return (NULL);
+	}
 	new_storage = malloc(sizeof(char) * (ft_strlen(storage) - i + 1));
 	if (!new_storage)
 		return (NULL);
@@ -97,8 +101,11 @@ char	*get_next_line(int fd)
 	char		*line;
 	static char	*storage;
 
-	if (fd < 0 || BUFFER_SIZE <= 0)
-		return (0);
+	if (BUFFER_SIZE <= 0 || fd < 0)
+	{
+		free(storage);
+		return (NULL);
+	}
 	storage = read_storage(fd, storage);
 	if (!storage)
 		return (NULL);
