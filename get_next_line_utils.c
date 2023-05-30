@@ -6,7 +6,7 @@
 /*   By: bifrost <nkeyani-@student.42barcelona.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/24 13:09:31 by nkeyani-          #+#    #+#             */
-/*   Updated: 2023/05/29 03:21:28 by bifrost          ###   ########.fr       */
+/*   Updated: 2023/05/30 13:45:27 by bifrost          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,71 +17,56 @@ size_t	ft_strlen(char *s)
 	size_t	i;
 
 	i = 0;
-	while (*s++)
+	if (!s)
+		return (0);
+	while (s[i] != '\0')
 		i++;
 	return (i);
 }
 
-char	*ft_strjoin(const char *s1, const char *s2)
+char	*ft_strjoin(char *s1, char *s2)
 {
-	int			i;
-	int			j;
-	int			s1len;
-	int			s2len;
-	char		*joined;	
+	size_t	i;
+	size_t	c;
+	char	*str;
 
-	s1len = ft_strlen((char *)s1);
-	s2len = ft_strlen((char *)s2);
-	joined = malloc((s1len + s2len) + 1 * sizeof(char));
-	if (!joined)
-		return (NULL);
-	i = 0;
-	j = 0;
-	while (s1[i] != '\0')
-		joined[i++] = ((char *)s1)[j++];
-	i = 0;
-	while (i < s2len)
+	if (!s1)
 	{
-		joined[s1len + i] = s2[i];
-		i++;
+		s1 = malloc(1 * sizeof(char));
+		s1[0] = '\0';
 	}
-	joined[s1len + s2len] = '\0';
-	return (joined);
+	if (!s1 || !s2)
+		return (NULL);
+	str = malloc((ft_strlen(s1) + ft_strlen(s2) + 1) * sizeof(char));
+	if (str == NULL)
+		return (NULL);
+	i = -1;
+	c = 0;
+	if (s1)
+		while (s1[++i] != '\0')
+			str[i] = s1[i];
+	while (s2[c] != '\0')
+		str[i++] = s2[c++];
+	str[ft_strlen(s1) + ft_strlen(s2)] = '\0';
+	free(s1);
+	return (str);
 }
 
-char	*ft_strchr(const char *s, int c)
+char	*ft_strchr(char *s, int c)
 {
-	unsigned int	i;
+	int	i;
 
 	i = 0;
-	while (s[i])
+	if (!s)
+		return (0);
+	if (c == '\0')
+		return ((char *)&s[ft_strlen(s)]);
+	while (s[i] != '\0')
 	{
 		if (s[i] == (char)c)
 			return ((char *)&s[i]);
 		i++;
 	}
-	if ((char)c == s[i])
-		return ((char *)&s[i]);
-	return (NULL);
-}
-
-char	*ft_strdup(char *s)
-{
-	size_t	len;
-	int		i;
-	char	*dup;
-
-	len = ft_strlen(s);
-	dup = (char *) malloc(sizeof(char) * (len + 1));
-	if (dup == NULL)
-		return (NULL);
-	i = 0;
-	while (s[i])
-	{
-		dup[i] = s[i];
-		i++;
-	}
-	dup[i] = '\0';
-	return (dup);
+	return (0);
 }
 
