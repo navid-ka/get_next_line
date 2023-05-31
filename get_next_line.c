@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   get_next_line.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bifrost <nkeyani-@student.42barcelona.c    +#+  +:+       +#+        */
+/*   By: nkeyani- < nkeyani-@student.42barcelona    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/24 13:21:10 by nkeyani-          #+#    #+#             */
-/*   Updated: 2023/05/31 01:11:02 by bifrost          ###   ########.fr       */
+/*   Updated: 2023/05/31 17:41:16 by nkeyani-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ static char	*read_storage(int fd, char *storage)
 
 	temp_storage = malloc((BUFFER_SIZE + 1) * sizeof(char));
 	if (!temp_storage)
-		return (NULL);
+		return (free_storage(storage));
 	read_bytes = 42;
 	while (!ft_strchr(storage, '\n') && read_bytes > 0)
 	{
@@ -52,7 +52,10 @@ static char	*extract_line(char *storage)
 		return (NULL);
 	while (storage[i] && storage[i] != '\n')
 		i++;
-	line = malloc(sizeof(char) * (i + 2));
+	if (storage[i] == '\0')
+		line = malloc(sizeof(char) * (i + 1));
+	else
+		line = malloc(sizeof(char) * (i + 2));
 	if (!line)
 		return (NULL);
 	i = 0;
@@ -86,7 +89,10 @@ static void	*clean_storage(char *storage)
 	}
 	new_storage = malloc(sizeof(char) * (ft_strlen(storage) - i + 1));
 	if (!new_storage)
+	{
+		free(storage);
 		return (NULL);
+	}
 	i++;
 	j = 0;
 	while (storage[i])
@@ -106,10 +112,17 @@ char	*get_next_line(int fd)
 		free(storage);
 		return (NULL);
 	}
-	storage = read_storage(fd, storage);
+	if (!storage || (storage && !ft_strchr(storage, '\n')))
+		storage = read_storage(fd, storage);
 	if (!storage)
 		return (NULL);
 	line = extract_line(storage);
+	if (!line)
+	{
+		free(storage);
+		storage = NULL;
+		return (NULL);
+	}
 	storage = clean_storage(storage);
 	return (line);
 }
