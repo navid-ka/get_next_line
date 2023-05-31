@@ -6,7 +6,7 @@
 /*   By: nkeyani- < nkeyani-@student.42barcelona    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/24 13:21:10 by nkeyani-          #+#    #+#             */
-/*   Updated: 2023/05/31 18:12:51 by nkeyani-         ###   ########.fr       */
+/*   Updated: 2023/05/31 18:31:41 by nkeyani-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,7 +65,10 @@ static char	*extract_line(char *storage)
 		i++;
 	}
 	if (storage[i] == '\n')
-		line[i] = storage[i] + 1;
+	{
+		line[i] = storage[i];
+		i++;
+	}
 	line[i] = '\0';
 	return (line);
 }
@@ -123,7 +126,6 @@ char	*get_next_line(int fd)
 	storage = clean_storage(storage);
 	return (line);
 }
-
 
 /*int main()
 {
