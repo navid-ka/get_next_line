@@ -6,7 +6,7 @@
 /*   By: nkeyani- < nkeyani-@student.42barcelona    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/24 13:21:10 by nkeyani-          #+#    #+#             */
-/*   Updated: 2023/05/31 18:31:41 by nkeyani-         ###   ########.fr       */
+/*   Updated: 2023/05/31 19:01:12 by nkeyani-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,6 +42,11 @@ static char	*read_storage(int fd, char *storage)
 	return (storage);
 }
 
+static void	memcopy(char *s1, char *s2, int i)
+{
+	s1[i] = s2[i];
+}
+
 static char	*extract_line(char *storage)
 {
 	int		i;
@@ -65,10 +70,7 @@ static char	*extract_line(char *storage)
 		i++;
 	}
 	if (storage[i] == '\n')
-	{
-		line[i] = storage[i];
-		i++;
-	}
+		memcopy(line, storage, i++);
 	line[i] = '\0';
 	return (line);
 }
