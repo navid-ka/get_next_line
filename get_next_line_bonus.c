@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   get_next_line_bonus.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bifrost <nkeyani-@student.42barcelona.c    +#+  +:+       +#+        */
+/*   By: nkeyani- < nkeyani-@student.42barcelona    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/24 13:21:10 by nkeyani-          #+#    #+#             */
-/*   Updated: 2023/06/01 16:09:36 by bifrost          ###   ########.fr       */
+/*   Updated: 2023/06/02 12:13:36 by nkeyani-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,9 +103,9 @@ static void	*clean_storage(char *storage)
 char	*get_next_line(int fd)
 {
 	char		*line;
-	static char	*storage[FOPEN_MAX];
+	static char	*storage[OPEN_MAX];
 
-	if (fd < 0)
+	if (fd < 0 || BUFFER_SIZE <= 0 || read(fd, 0, 0) < 0)
 	{
 		free(storage[fd]);
 		return (NULL);
@@ -127,20 +127,26 @@ char	*get_next_line(int fd)
 
 /*int main()
 {
-	int fd;
+	int fd1;
+	int fd2;
 	int i;
 	char *line;
 
 	i = 0;
-	fd = open("./0.txt", O_RDONLY);
+	fd1 = open("./0.txt", O_RDONLY);
+	fd2 = open("./hello.txt", O_RDONLY);
 	while (i < 10)
 	{
-		line = get_next_line(fd);
-		printf("return value %d: %s\n", i, line);
+		line = get_next_line(fd1);
+		printf("1return value %d: %s\n", i, line);
+		free(line);
+		line = get_next_line(fd2);
+		printf("2return value %d: %s\n", i, line);
 		free(line);
 		i++;
 	}
-	close(fd);
+	close(fd1);
+	close(fd2);
 	return (0);
 }
 */

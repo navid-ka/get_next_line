@@ -1,6 +1,6 @@
 NAME = GNL
-CFLAGS = -Wall -Werror -Wextra -D BUFFER_SIZE=4 -g -fsanitize=address
-OBJECTS = get_next_line.c get_next_line_utils.c
+CFLAGS = -Wall -Werror -Wextra -D BUFFER_SIZE=1 -g -fsanitize=address
+OBJECTS = get_next_line_bonus.c get_next_line_utils_bonus.c
 COLOR_RESET = \033[0m
 COLOR = \033[32m
 KAOMOJI_SUCCESS = (づ ᴗ _ᴗ)づ♡

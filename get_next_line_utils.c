@@ -6,7 +6,7 @@
 /*   By: nkeyani- < nkeyani-@student.42barcelona    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/24 13:09:31 by nkeyani-          #+#    #+#             */
-/*   Updated: 2023/05/31 18:21:03 by nkeyani-         ###   ########.fr       */
+/*   Updated: 2023/06/02 11:45:33 by nkeyani-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 char	*free_storage(char *storage)
 {
 	free(storage);
+	storage = NULL;
 	return (NULL);
 }
 
