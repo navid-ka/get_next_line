@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   get_next_line_bonus.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nkeyani- < nkeyani-@student.42barcelona    +#+  +:+       +#+        */
+/*   By: bifrost <nkeyani-@student.42barcelona.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/24 13:21:10 by nkeyani-          #+#    #+#             */
-/*   Updated: 2023/06/02 12:13:36 by nkeyani-         ###   ########.fr       */
+/*   Updated: 2023/06/03 03:49:24 by bifrost          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ static char	*read_storage(int fd, char *storage)
 
 	temp_storage = malloc((BUFFER_SIZE + 1) * sizeof(char));
 	if (!temp_storage)
-		return (free_storage(storage));
+		return (free_storage(&storage));
 	read_bytes = 42;
 	while (!ft_strchr(storage, '\n') && read_bytes > 0)
 	{
@@ -39,11 +39,6 @@ static char	*read_storage(int fd, char *storage)
 	free(temp_storage);
 	temp_storage = NULL;
 	return (storage);
-}
-
-static void	magical_copy(char *s1, char *s2, int i)
-{
-	s1[i] = s2[i];
 }
 
 static char	*extract_line(char *storage)
@@ -64,9 +59,12 @@ static char	*extract_line(char *storage)
 		return (NULL);
 	i = 0;
 	while (storage[i] && storage[i] != '\n')
-		magical_copy(line, storage, i++);
+	{
+		line[i] = storage[i];
+		i++;
+	}
 	if (storage[i] == '\n')
-		magical_copy(line, storage, i++);
+		line[i++] = '\n';
 	line[i] = '\0';
 	return (line);
 }
@@ -103,12 +101,12 @@ static void	*clean_storage(char *storage)
 char	*get_next_line(int fd)
 {
 	char		*line;
-	static char	*storage[OPEN_MAX];
+	static char	*storage[FOPEN_MAX];
 
-	if (fd < 0 || BUFFER_SIZE <= 0 || read(fd, 0, 0) < 0)
+	if (fd < 0)
 	{
 		free(storage[fd]);
-		return (NULL);
+		return (free_storage(&storage[fd]));
 	}
 	if (!storage[fd] || (storage[fd] && !ft_strchr(storage[fd], '\n')))
 		storage[fd] = read_storage(fd, storage[fd]);
@@ -116,11 +114,7 @@ char	*get_next_line(int fd)
 		return (NULL);
 	line = extract_line(storage[fd]);
 	if (!line)
-	{
-		free(storage[fd]);
-		storage[fd] = NULL;
-		return (NULL);
-	}
+		return (free_storage(&storage[fd]));
 	storage[fd] = clean_storage(storage[fd]);
 	return (line);
 }

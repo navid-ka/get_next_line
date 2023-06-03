@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   get_next_line.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nkeyani- < nkeyani-@student.42barcelona    +#+  +:+       +#+        */
+/*   By: bifrost <nkeyani-@student.42barcelona.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/24 13:21:10 by nkeyani-          #+#    #+#             */
-/*   Updated: 2023/06/02 11:43:23 by nkeyani-         ###   ########.fr       */
+/*   Updated: 2023/06/03 02:59:02 by bifrost          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,11 +42,6 @@ static char	*read_storage(int fd, char *storage)
 	return (storage);
 }
 
-static void	magical_copy(char *s1, char *s2, int i)
-{
-	s1[i] = s2[i];
-}
-
 static char	*extract_line(char *storage)
 {
 	int		i;
@@ -65,9 +60,12 @@ static char	*extract_line(char *storage)
 		return (NULL);
 	i = 0;
 	while (storage[i] && storage[i] != '\n')
-		magical_copy(line, storage, i++);
+	{
+		line[i] = storage[i];
+		i++;
+	}
 	if (storage[i] == '\n')
-		magical_copy(line, storage, i++);
+		line[i++] = '\n';
 	line[i] = '\0';
 	return (line);
 }
