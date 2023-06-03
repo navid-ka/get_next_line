@@ -6,15 +6,16 @@
 /*   By: bifrost <nkeyani-@student.42barcelona.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/24 13:09:31 by nkeyani-          #+#    #+#             */
-/*   Updated: 2023/06/01 15:59:52 by bifrost          ###   ########.fr       */
+/*   Updated: 2023/06/03 02:59:25 by bifrost          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line_bonus.h"
 
-char	*free_storage(char *storage)
+char	*free_storage(char **storage)
 {
-	free(storage);
+	free(*storage);
+	*storage = NULL;
 	return (NULL);
 }
 
@@ -45,7 +46,7 @@ char	*ft_strjoin(char *s1, char *s2)
 	}
 	str = malloc((ft_strlen(s1) + ft_strlen(s2) + 1) * sizeof(char));
 	if (str == NULL)
-		return (free_storage(s1));
+		return (free_storage(&s1));
 	i = -1;
 	c = 0;
 	if (s1)
