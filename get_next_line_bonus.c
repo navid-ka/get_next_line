@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   get_next_line_bonus.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bifrost <nkeyani-@student.42barcelona.c    +#+  +:+       +#+        */
+/*   By: nkeyani- < nkeyani-@student.42barcelona    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/24 13:21:10 by nkeyani-          #+#    #+#             */
-/*   Updated: 2023/06/03 03:49:24 by bifrost          ###   ########.fr       */
+/*   Updated: 2023/06/06 12:44:27 by nkeyani-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,13 +101,10 @@ static void	*clean_storage(char *storage)
 char	*get_next_line(int fd)
 {
 	char		*line;
-	static char	*storage[FOPEN_MAX];
+	static char	*storage[OPEN_MAX];
 
 	if (fd < 0)
-	{
-		free(storage[fd]);
-		return (free_storage(&storage[fd]));
-	}
+		return (NULL);
 	if (!storage[fd] || (storage[fd] && !ft_strchr(storage[fd], '\n')))
 		storage[fd] = read_storage(fd, storage[fd]);
 	if (!storage[fd])
